@@ -6,23 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="?">
-                        <select
-                                class="form-select mb-3"
-                                name="status"
-                                onChange="this.form.submit()"
-                        >
-                            <option selected>Open this select menu</option>
-                            @foreach ($statuses as $status)
-                                <option
-                                        value="{{ $status->value }}"
-                                        @if ($status->value === request('status')) selected @endif
-                                >
-                                    {{ $status->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
+                    @include('request.includes.filter', $statuses)
                     <table class="table table-light table-striped">
                         <thead>
                         <tr>
@@ -70,7 +54,7 @@
                         </tbody>
                     </table>
                     @if($paginator->total() > $paginator->count())
-                        {{ $paginator->links() }}
+                        {{ $paginator->withQueryString()->links() }}
                     @endif
                 </div>
             </div>
