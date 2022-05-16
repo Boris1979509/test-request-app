@@ -25,7 +25,7 @@ class RequestController extends Controller
             [
                 'status' => 'success',
                 'message' => trans('Successfully sent!'),
-                'data' => $data
+                'data' => $data /** testing */
             ],
             200
         );
