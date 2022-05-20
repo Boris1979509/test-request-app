@@ -18,6 +18,7 @@
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Created At') }}</th>
                             <th>{{ __('Updated At') }}</th>
+                            <th>{{ __('Delete') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,6 +48,9 @@
                                 </td>
                                 <td>{{ $request->created_at }}</td>
                                 <td>{{ $request->updated_at }}</td>
+                                <td>
+                                    @include('request.includes.delete', $request)
+                                </td>
                             </tr>
                         @empty
                             <div class="alert alert-info">{{ __('No requests') }}</div>
@@ -61,3 +65,40 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        var trans = {
+            number: "@lang('Please correct the errors in the form!')",
+            confirm: "@lang('Do you really want to to delete this item?')",
+            required: "@lang('This field is required')"
+        };
+
+        /**
+         * Delete request
+         */
+        function deleteItem(id) {
+            if (typeof id !== 'number') {
+                alert(trans.number);
+                return false;
+            }
+            return confirm(trans.confirm);
+        }
+
+        /**
+         * Update request
+         */
+        function update(form) {
+            var messageElement = form.querySelector('.text-danger');
+
+            if (form.comment.value) {
+                form.submit();
+            } else {
+                form.reset();
+                if (messageElement) return;
+
+                form.comment.classList.add('is-invalid');
+                form.insertAdjacentHTML('beforeend', `<span class="text-danger">${trans.required}</span>`);
+            }
+        }
+    </script>
+@endpush
