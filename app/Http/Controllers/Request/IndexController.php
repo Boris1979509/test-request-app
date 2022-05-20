@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateRequest;
 use App\UseCases\Request\UpdateService;
 use App\Models\Request as RequestModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Enums\RequestStatus;
@@ -17,14 +18,12 @@ use App\Enums\RequestStatus;
 class IndexController extends Controller
 {
     /**
-     * @var UpdateService $service
+     * IndexController constructor.
+     * @param private UpdateService $service
      */
-    private $service;
-
-    public function __construct(UpdateService $service)
-    {
-        $this->service = $service;
-    }
+    public function __construct(
+        private UpdateService $service,
+    ) {}
 
     /**
      * Total page
@@ -53,7 +52,7 @@ class IndexController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateRequest $request, int $id)
+    public function update(UpdateRequest $request, int $id): RedirectResponse
     {
         try {
             $this->service->update($request, $id);
@@ -64,13 +63,15 @@ class IndexController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * Delete request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $requestModel = RequestModel::findOrFail($id);
+        if ($requestModel->delete()) {
+            return back()->with('success', trans('Successfully deleted!'));
+        }
     }
 }
