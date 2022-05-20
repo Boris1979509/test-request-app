@@ -10,3 +10,5 @@ Route::get('/', function () {
 
 Route::resource('requests', IndexController::class)
     ->only('update', 'index', 'destroy');
+Route::get('requests/{request}/restore', [IndexController::class, 'restore'])
+    ->name('requests.restore');

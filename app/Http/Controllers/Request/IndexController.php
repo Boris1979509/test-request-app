@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Request;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateRequest;
+use App\UseCases\Request\FilterService;
 use App\UseCases\Request\UpdateService;
 use App\Models\Request as RequestModel;
 use Illuminate\Http\RedirectResponse;
@@ -28,35 +29,34 @@ class IndexController extends Controller
     /**
      * Total page
      */
-    protected const LIMIT = 5;
+    private const LIMIT = 5;
 
     /**
+     * @param Request $request
      * @return View
      */
     public function index(Request $request): View
     {
-        $query = RequestModel::orderByDesc('id');
+        $builder = RequestModel::orderByDesc('id')->withTrashed();
 
-        if (!empty($value = $request->get('status'))) {
-            $query->where('status', $value);
-        }
 
         $statuses = RequestStatus::cases();
-        $paginator = $query->paginate(self::LIMIT);
-
+        $paginator = (new FilterService($request))
+                        ->apply($builder)
+                        ->paginate(self::LIMIT);
         return view('request.index', compact('paginator', 'statuses'));
     }
 
     /**
      * @param UpdateRequest $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(UpdateRequest $request, int $id): RedirectResponse
     {
         try {
             $this->service->update($request, $id);
-            return back()->with('success', trans('Saved successfully!'));
+            return back()->with('success', trans('Saved successfully'));
         } catch (\DomainException $error) {
             return back()->with('error', $error->getMessage());
         }
@@ -65,13 +65,27 @@ class IndexController extends Controller
     /**
      * Delete request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy(int $id): RedirectResponse
     {
         $requestModel = RequestModel::findOrFail($id);
         if ($requestModel->delete()) {
-            return back()->with('success', trans('Successfully deleted!'));
+            return back()->with('success', trans('Successfully deleted'));
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function restore(int $id): RedirectResponse
+    {
+        $restore = RequestModel::withTrashed()
+                        ->whereId($id)
+                        ->restore();
+        if($restore) {
+            return back()->with('success', trans('Restored successfully'));
         }
     }
 }

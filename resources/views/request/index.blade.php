@@ -24,7 +24,7 @@
                         <tbody>
                         @php /** @var Request $request */use App\Models\Request; @endphp
                         @forelse ($paginator as $request)
-                            <tr>
+                            <tr class="@if($request->deleted_at) opacity-75 @endif">
                                 <td>{{ $request->id }}</td>
                                 <td>{{ $request->name }}</td>
                                 <td>{{ $request->email }}</td>
@@ -49,7 +49,11 @@
                                 <td>{{ $request->created_at }}</td>
                                 <td>{{ $request->updated_at }}</td>
                                 <td>
-                                    @include('request.includes.delete', $request)
+                                    @if(is_null($request->deleted_at))
+                                        @include('request.includes.delete', $request)
+                                    @else
+                                        @include('request.includes.restore', $request)
+                                    @endif
                                 </td>
                             </tr>
                         @empty

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\UseCases\Request\FilterService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\RequestStatus;
@@ -19,6 +21,7 @@ use Illuminate\Support\Str;
  * @property  string $comment
  * @property RequestStatus $status
  * @property Carbon $created_at
+ * @property Carbon|null $deleted_at
  * @property Carbon $updated_at
  */
 class Request extends Model
