@@ -82,4 +82,12 @@ class Request extends Model
         ]);
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->status === RequestStatus::ACTIVE;
+    }
 }

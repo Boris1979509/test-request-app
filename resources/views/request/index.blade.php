@@ -31,17 +31,17 @@
                                     {{ $request->message }}
                                 </td>
                                 <td>
-                                @if($request->status === \App\Enums\RequestStatus::ACTIVE)
+                                @if($request->isActive())
                                     @include('request.includes.update', $request)
                                 @else
                                     {{ $request->comment }}
                                 @endif
                                 <td>
-                                    @if($request->status === \App\Enums\RequestStatus::ACTIVE)
-                                        <span class="badge text-bg-danger">{{ $request->status->value }}</span>
+                                    @if($request->isActive())
+                                        <span class="badge text-bg-danger">{{ __($request->status->value) }}</span>
                                     @else
                                         <span class="badge text-bg-success">
-                                            {{ $request->status->value }}
+                                            {{ __($request->status->value) }}
                                         </span>
                                     @endif
                                 </td>
