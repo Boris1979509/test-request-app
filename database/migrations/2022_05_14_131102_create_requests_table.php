@@ -15,7 +15,7 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('status')->default('Active');
+            $table->string('status')->default('active');
             $table->text('message');
             $table->text('comment')->nullable();
             $table->timestamps();

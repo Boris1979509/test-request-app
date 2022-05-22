@@ -24,7 +24,7 @@ class RequestController extends Controller
         return response()->json(
             [
                 'status' => 'success',
-                'message' => trans('Successfully sent!'),
+                'message' => trans('message.successfully_sent'),
                 'data' => $data /** testing */
             ],
             200

@@ -2,5 +2,5 @@
     href="{{ route('requests.restore', $request->id) }}"
     class="link-primary underline"
 >
-    {{ __('Restore') }}
+    {{ __('attribute.restore') }}
 </a>

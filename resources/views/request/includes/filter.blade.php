@@ -4,13 +4,13 @@
             name="status"
             onChange="this.form.submit()"
     >
-        <option selected value="">{{ __('Open this select menu') }}</option>
+        <option selected value="">{{ __('attribute.open_this_select_menu') }}</option>
         @foreach ($statuses as $status)
             <option
                     value="{{ $status->value }}"
                     @if ($status->value === request('status')) selected @endif
             >
-                {{ $status->name }}
+                {{ __('attribute.' . $status->value) }}
             </option>
         @endforeach
     </select>
@@ -23,6 +23,6 @@
                 onchange="this.form.submit()"
                 id="trashed"
         >
-        <label class="form-check-label" for="trashed">{{ __('Deleted') }}</label>
+        <label class="form-check-label" for="trashed">{{ __('attribute.deleted') }}</label>
     </div>
 </form>

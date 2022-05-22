@@ -56,7 +56,7 @@ class IndexController extends Controller
     {
         try {
             $this->service->update($request, $id);
-            return back()->with('success', trans('Saved successfully'));
+            return back()->with('success', trans('message.saved_successfully'));
         } catch (\DomainException $error) {
             return back()->with('error', $error->getMessage());
         }
@@ -71,7 +71,7 @@ class IndexController extends Controller
     {
         $requestModel = RequestModel::findOrFail($id);
         if ($requestModel->delete()) {
-            return back()->with('success', trans('Successfully deleted'));
+            return back()->with('success', trans('message.successfully_deleted'));
         }
     }
 
@@ -85,7 +85,7 @@ class IndexController extends Controller
                         ->whereId($id)
                         ->restore();
         if($restore) {
-            return back()->with('success', trans('Restored successfully'));
+            return back()->with('success', trans('message.restored_successfully'));
         }
     }
 }

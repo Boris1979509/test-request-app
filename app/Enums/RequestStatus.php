@@ -7,6 +7,6 @@ namespace App\Enums;
  */
 enum RequestStatus: string
 {
-    case ACTIVE = 'Active';
-    case RESOLVED = 'Resolved';
+    case ACTIVE = 'active';
+    case RESOLVED = 'resolved';
 }

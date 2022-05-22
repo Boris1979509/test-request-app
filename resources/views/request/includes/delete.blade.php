@@ -5,5 +5,5 @@
 >
     @csrf
     @method('DELETE')
-    <button class="btn btn-sm btn-danger">{{ __('Delete') }}</button>
+    <button class="btn btn-sm btn-danger">{{ __('attribute.delete') }}</button>
 </form>
